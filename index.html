@@ -91,7 +91,7 @@
         /* Контейнер для кнопок категорий */
         .categories {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Изменено для 4 кнопок в строке */
+            grid-template-columns: repeat(3, 1fr); /* Изменено для 3 кнопок в строке */
             gap: 30px;
         }
 
@@ -107,7 +107,7 @@
                 -5px -5px 15px rgba(255, 255, 255, 0.7);
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
-            overflow: hidden; /* Добавлено для ограничения эмоджи внутри кнопки */
+            /* overflow: hidden; Удалено, чтобы подкатегории могли отображаться */
             z-index: 1; /* Установлено базовое значение для корректного наложения подкатегорий */
         }
 
@@ -223,7 +223,7 @@
         /* Адаптивность */
         @media (max-width: 1200px) {
             .categories {
-                grid-template-columns: repeat(3, 1fr); /* 3 кнопки в строке на экранах меньше 1200px */
+                grid-template-columns: repeat(3, 1fr); /* Оставляем 3 кнопки в строке */
             }
         }
 
