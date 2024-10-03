@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Выбор категории товара</title>
+    <title>Интернет-магазин "Твой Выбор"</title>
     <style>
         /* Сброс стандартных отступов и установка box-sizing */
         * {
@@ -15,89 +15,252 @@
         /* Стили для тела страницы */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f0f4f8, #cfd9df);
-            height: 100vh;
+            background: linear-gradient(135deg, #e0eafc, #cfdef3);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Шапка сайта */
+        header {
+            width: 100%;
+            background-color: #fff;
+            padding: 20px 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* Название магазина */
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Навигация */
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #555;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #2575fc;
+        }
+
+        /* Основной контейнер */
+        .main-container {
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 40px;
         }
 
-        /* Контейнер для центрирования контента */
-        .container {
+        /* Контейнер для контента */
+        .content {
             text-align: center;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
             border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 800px;
         }
 
         /* Заголовок страницы */
-        h1 {
-            margin-bottom: 30px;
+        .content h1 {
+            margin-bottom: 40px;
             color: #333;
-            font-size: 2rem;
+            font-size: 2.5rem;
         }
 
         /* Контейнер для кнопок категорий */
         .categories {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 30px;
         }
 
         /* Стили для кнопок категорий */
-        .category-button {
-            width: 100%;
-            max-width: 300px;
-            padding: 15px 20px;
-            font-size: 1.1rem;
-            color: #fff;
+        .category {
+            position: relative;
             background: linear-gradient(145deg, #6a11cb, #2575fc);
-            border: none;
-            border-radius: 10px;
+            color: #fff;
+            padding: 20px;
+            border-radius: 15px;
             box-shadow: 
                 5px 5px 15px rgba(0, 0, 0, 0.1),
                 -5px -5px 15px rgba(255, 255, 255, 0.7);
             cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        /* Эффект при наведении курсора */
-        .category-button:hover {
-            transform: translateY(-3px);
+        /* Добавление эмоджи к категориям */
+        .category .emoji {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .category:hover {
+            transform: translateY(-5px);
             box-shadow: 
                 2px 2px 10px rgba(0, 0, 0, 0.1),
                 -2px -2px 10px rgba(255, 255, 255, 0.7);
         }
 
-        /* Эффект при нажатии кнопки */
-        .category-button:active {
-            transform: translateY(2px);
-            box-shadow: 
-                inset 2px 2px 5px rgba(0, 0, 0, 0.1),
-                inset -2px -2px 5px rgba(255, 255, 255, 0.7);
+        /* Подкатегории */
+        .subcategory {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            color: #333;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 10px 0;
+            z-index: 10;
         }
 
-        /* Дополнительные стили для адаптивности */
-        @media (max-width: 400px) {
-            .category-button {
-                max-width: 250px;
-                font-size: 1rem;
+        .subcategory a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #555;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .subcategory a:hover {
+            background: #2575fc;
+            color: #fff;
+        }
+
+        /* Показывать подкатегории при наведении */
+        .category:hover .subcategory {
+            display: block;
+        }
+
+        /* Подвал сайта */
+        footer {
+            background-color: #fff;
+            padding: 20px 40px;
+            text-align: center;
+            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .content h1 {
+                font-size: 2rem;
+            }
+
+            .category {
+                padding: 15px;
+            }
+
+            .category .emoji {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Выберите категорию товара</h1>
-        <div class="categories">
-            <button class="category-button">Электроника</button>
-            <button class="category-button">Одежда</button>
-            <button class="category-button">Книги</button>
-            <button class="category-button">Дом и сад</button>
+    <!-- Шапка сайта -->
+    <header>
+        <div class="logo">🛒 Твой Выбор</div>
+        <nav>
+            <ul>
+                <li><a href="#">Главная</a></li>
+                <li><a href="#">Категории</a></li>
+                <li><a href="#">Акции</a></li>
+                <li><a href="#">Контакты</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Основной контент -->
+    <div class="main-container">
+        <div class="content">
+            <h1>Выберите категорию товара</h1>
+            <div class="categories">
+                <!-- Категория Электроника -->
+                <div class="category">
+                    <div class="emoji">📱</div>
+                    Электроника
+                    <div class="subcategory">
+                        <a href="#">Смартфоны</a>
+                        <a href="#">Компьютеры</a>
+                        <a href="#">Аксессуары</a>
+                        <a href="#">Телевизоры</a>
+                    </div>
+                </div>
+                <!-- Категория Одежда -->
+                <div class="category">
+                    <div class="emoji">👗</div>
+                    Одежда
+                    <div class="subcategory">
+                        <a href="#">Мужская</a>
+                        <a href="#">Женская</a>
+                        <a href="#">Детская</a>
+                        <a href="#">Обувь</a>
+                    </div>
+                </div>
+                <!-- Категория Книги -->
+                <div class="category">
+                    <div class="emoji">📚</div>
+                    Книги
+                    <div class="subcategory">
+                        <a href="#">Художественная</a>
+                        <a href="#">Научная</a>
+                        <a href="#">Учебная</a>
+                        <a href="#">Комиксы</a>
+                    </div>
+                </div>
+                <!-- Категория Дом и сад -->
+                <div class="category">
+                    <div class="emoji">🏡</div>
+                    Дом и сад
+                    <div class="subcategory">
+                        <a href="#">Мебель</a>
+                        <a href="#">Садовая техника</a>
+                        <a href="#">Декор</a>
+                        <a href="#">Инструменты</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Подвал сайта -->
+    <footer>
+        © 2024 Интернет-магазин "Твой Выбор". Все права защищены.
+    </footer>
 </body>
 </html>
