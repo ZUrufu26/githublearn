@@ -91,7 +91,7 @@
         /* Контейнер для кнопок категорий */
         .categories {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(4, 1fr); /* Изменено для 4 кнопок в строке */
             gap: 30px;
         }
 
@@ -107,7 +107,8 @@
                 -5px -5px 15px rgba(255, 255, 255, 0.7);
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
-            /* Убрано overflow: hidden, чтобы дополнительные эмоджи могли отображаться */
+            overflow: hidden; /* Добавлено для ограничения эмоджи внутри кнопки */
+            z-index: 1; /* Установлено базовое значение для корректного наложения подкатегорий */
         }
 
         /* Контейнер для эмоджи */
@@ -115,6 +116,8 @@
             position: relative;
             display: inline-block;
             margin-bottom: 10px;
+            width: 100%; /* Добавлено для центрирования эмоджи */
+            text-align: center; /* Центрирование эмоджи внутри контейнера */
         }
 
         /* Основное эмоджи */
@@ -142,23 +145,23 @@
         /* Левое дополнительное эмоджи */
         .category .emoji::before {
             content: attr(data-left-emoji);
-            left: -50%;
+            left: 25%; /* Изменено для размещения внутри кнопки */
         }
 
         /* Правое дополнительное эмоджи */
         .category .emoji::after {
             content: attr(data-right-emoji);
-            left: 150%; /* Позиционируем справа от основного эмоджи */
+            left: 75%; /* Изменено для размещения внутри кнопки */
         }
 
         /* Анимация появления дополнительных эмоджи при наведении */
         .category:hover .emoji::before {
-            transform: translate(-100%, -50%) scale(1);
+            transform: translate(-50%, -50%) scale(1);
             opacity: 1;
         }
 
         .category:hover .emoji::after {
-            transform: translate(0%, -50%) scale(1);
+            transform: translate(-50%, -50%) scale(1);
             opacity: 1;
         }
 
@@ -185,7 +188,7 @@
             border-radius: 0 0 15px 15px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             padding: 10px 0;
-            z-index: 20; /* Повышенный z-index для отображения поверх других элементов */
+            z-index: 30; /* Увеличен z-index для отображения поверх других элементов */
             min-width: 150px;
         }
 
@@ -218,6 +221,18 @@
         }
 
         /* Адаптивность */
+        @media (max-width: 1200px) {
+            .categories {
+                grid-template-columns: repeat(3, 1fr); /* 3 кнопки в строке на экранах меньше 1200px */
+            }
+        }
+
+        @media (max-width: 900px) {
+            .categories {
+                grid-template-columns: repeat(2, 1fr); /* 2 кнопки в строке на экранах меньше 900px */
+            }
+        }
+
         @media (max-width: 600px) {
             header {
                 flex-direction: column;
@@ -249,6 +264,10 @@
 
             .subcategory {
                 min-width: 120px;
+            }
+
+            .categories {
+                grid-template-columns: repeat(1, 1fr); /* 1 кнопка в строке на экранах меньше 600px */
             }
         }
     </style>
