@@ -4,273 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Интернет-магазин "Твой Выбор"</title>
-    <style>
-        /* Сброс стандартных отступов и установка box-sizing */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Стили для тела страницы */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #e0eafc, #cfdef3);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Шапка сайта */
-        header {
-            width: 100%;
-            background-color: #fff;
-            padding: 20px 40px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        /* Название магазина */
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #333;
-        }
-
-        /* Навигация */
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: #555;
-            font-size: 1rem;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: #2575fc;
-        }
-
-        /* Основной контейнер */
-        .main-container {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-        }
-
-        /* Контейнер для контента */
-        .content {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 1200px; /* Увеличен макс. размер для лучшего распределения */
-            position: relative; /* Для правильного наложения подкатегорий */
-        }
-
-        /* Заголовок страницы */
-        .content h1 {
-            margin-bottom: 40px;
-            color: #333;
-            font-size: 2.5rem;
-        }
-
-        /* Контейнер для кнопок категорий */
-        .categories {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Изменено для 3 кнопок в строке */
-            gap: 30px;
-        }
-
-        /* Стили для кнопок категорий */
-        .category {
-            position: relative;
-            background: linear-gradient(145deg, #6a11cb, #2575fc);
-            color: #fff;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 
-                5px 5px 15px rgba(0, 0, 0, 0.1),
-                -5px -5px 15px rgba(255, 255, 255, 0.7);
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            /* overflow: hidden; Удалено, чтобы подкатегории могли отображаться */
-            z-index: 1; /* Установлено базовое значение для корректного наложения подкатегорий */
-        }
-
-        /* Контейнер для эмоджи */
-        .category .emoji-container {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 10px;
-            width: 100%; /* Добавлено для центрирования эмоджи */
-            text-align: center; /* Центрирование эмоджи внутри контейнера */
-        }
-
-        /* Основное эмоджи */
-        .category .emoji {
-            position: relative;
-            font-size: 2.5rem;
-            transition: transform 0.3s;
-            z-index: 2; /* Основное эмоджи выше дополнительных */
-        }
-
-        /* Дополнительные эмоджи */
-        .category .emoji::before,
-        .category .emoji::after {
-            content: attr(data-emoji);
-            position: absolute;
-            top: 50%;
-            transform: translate(-50%, -50%) scale(0.5);
-            font-size: 1.5rem;
-            opacity: 0;
-            transition: transform 0.3s, opacity 0.3s;
-            z-index: 1; /* Ниже основного эмоджи */
-            pointer-events: none;
-        }
-
-        /* Левое дополнительное эмоджи */
-        .category .emoji::before {
-            content: attr(data-left-emoji);
-            left: 25%; /* Изменено для размещения внутри кнопки */
-        }
-
-        /* Правое дополнительное эмоджи */
-        .category .emoji::after {
-            content: attr(data-right-emoji);
-            left: 75%; /* Изменено для размещения внутри кнопки */
-        }
-
-        /* Анимация появления дополнительных эмоджи при наведении */
-        .category:hover .emoji::before {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-        }
-
-        .category:hover .emoji::after {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-        }
-
-        .category:hover .emoji {
-            transform: scale(1.2);
-        }
-
-        .category:hover {
-            transform: translateY(-5px);
-            box-shadow: 
-                2px 2px 10px rgba(0, 0, 0, 0.1),
-                -2px -2px 10px rgba(255, 255, 255, 0.7);
-        }
-
-        /* Подкатегории */
-        .subcategory {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #fff;
-            color: #333;
-            border-radius: 0 0 15px 15px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            padding: 10px 0;
-            z-index: 30; /* Увеличен z-index для отображения поверх других элементов */
-            min-width: 150px;
-        }
-
-        .subcategory a {
-            display: block;
-            padding: 10px 20px;
-            text-decoration: none;
-            color: #555;
-            transition: background 0.3s, color 0.3s;
-        }
-
-        .subcategory a:hover {
-            background: #2575fc;
-            color: #fff;
-        }
-
-        /* Показывать подкатегории при наведении */
-        .category:hover .subcategory {
-            display: block;
-        }
-
-        /* Подвал сайта */
-        footer {
-            background-color: #fff;
-            padding: 20px 40px;
-            text-align: center;
-            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
-            font-size: 0.9rem;
-            color: #777;
-        }
-
-        /* Адаптивность */
-        @media (max-width: 1200px) {
-            .categories {
-                grid-template-columns: repeat(3, 1fr); /* Оставляем 3 кнопки в строке */
-            }
-        }
-
-        @media (max-width: 900px) {
-            .categories {
-                grid-template-columns: repeat(2, 1fr); /* 2 кнопки в строке на экранах меньше 900px */
-            }
-        }
-
-        @media (max-width: 600px) {
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            nav ul {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .content h1 {
-                font-size: 2rem;
-            }
-
-            .category {
-                padding: 15px;
-            }
-
-            .category .emoji {
-                font-size: 2rem;
-            }
-
-            .category .emoji::before,
-            .category .emoji::after {
-                font-size: 1.2rem;
-            }
-
-            .subcategory {
-                min-width: 120px;
-            }
-
-            .categories {
-                grid-template-columns: repeat(1, 1fr); /* 1 кнопка в строке на экранах меньше 600px */
-            }
-        }
-    </style>
+    <!-- Подключение внешнего CSS файла -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Шапка сайта -->
@@ -291,8 +26,8 @@
         <div class="content">
             <h1>Выберите категорию товара</h1>
             <div class="categories">
-                <!-- Категория Электроника -->
-                <div class="category">
+                <!-- Категории с уникальными идентификаторами для управления через JS -->
+                <div class="category" data-category="electronics">
                     <div class="emoji-container">
                         <div class="emoji" data-left-emoji="🔋" data-right-emoji="💻">📱</div>
                     </div>
@@ -304,8 +39,7 @@
                         <a href="#">Телевизоры</a>
                     </div>
                 </div>
-                <!-- Категория Одежда -->
-                <div class="category">
+                <div class="category" data-category="clothing">
                     <div class="emoji-container">
                         <div class="emoji" data-left-emoji="👠" data-right-emoji="🧥">👗</div>
                     </div>
@@ -317,8 +51,7 @@
                         <a href="#">Обувь</a>
                     </div>
                 </div>
-                <!-- Категория Книги -->
-                <div class="category">
+                <div class="category" data-category="books">
                     <div class="emoji-container">
                         <div class="emoji" data-left-emoji="📖" data-right-emoji="📘">📚</div>
                     </div>
@@ -330,8 +63,7 @@
                         <a href="#">Комиксы</a>
                     </div>
                 </div>
-                <!-- Категория Дом и сад -->
-                <div class="category">
+                <div class="category" data-category="home-garden">
                     <div class="emoji-container">
                         <div class="emoji" data-left-emoji="🪑" data-right-emoji="🌸">🏡</div>
                     </div>
@@ -343,8 +75,7 @@
                         <a href="#">Инструменты</a>
                     </div>
                 </div>
-                <!-- Новая Категория Спорт -->
-                <div class="category">
+                <div class="category" data-category="sports">
                     <div class="emoji-container">
                         <div class="emoji" data-left-emoji="🏀" data-right-emoji="🎾">⚽</div>
                     </div>
@@ -356,8 +87,7 @@
                         <a href="#">Фитнес</a>
                     </div>
                 </div>
-                <!-- Новая Категория Игры -->
-                <div class="category">
+                <div class="category" data-category="games">
                     <div class="emoji-container">
                         <div class="emoji" data-left-emoji="🎮" data-right-emoji="🕹️">🧩</div>
                     </div>
@@ -377,5 +107,8 @@
     <footer>
         © 2024 Интернет-магазин "Твой Выбор". Все права защищены.
     </footer>
+
+    <!-- Подключение внешнего JavaScript файла -->
+    <script src="script.js"></script>
 </body>
 </html>

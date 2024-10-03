@@ -1,0 +1,282 @@
+/* Сброс стандартных отступов и установка box-sizing */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Стили для тела страницы */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #e0eafc, #cfdef3);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Шапка сайта */
+header {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px 40px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Название магазина */
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Навигация */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #555;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #2575fc;
+}
+
+/* Основной контейнер */
+.main-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+/* Контейнер для контента */
+.content {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 1200px; /* Увеличен макс. размер для лучшего распределения */
+    position: relative; /* Для правильного наложения подкатегорий */
+}
+
+/* Заголовок страницы */
+.content h1 {
+    margin-bottom: 40px;
+    color: #333;
+    font-size: 2.5rem;
+}
+
+/* Контейнер для кнопок категорий */
+.categories {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 кнопки в строке */
+    gap: 30px;
+}
+
+/* Стили для кнопок категорий */
+.category {
+    position: relative;
+    background: linear-gradient(145deg, #6a11cb, #2575fc);
+    color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 
+        5px 5px 15px rgba(0, 0, 0, 0.1),
+        -5px -5px 15px rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    z-index: 1; /* Установлено базовое значение для корректного наложения подкатегорий */
+    overflow: visible; /* Позволяет подкатегориям выходить за пределы кнопки */
+}
+
+/* Активное состояние категории */
+.category.active {
+    transform: translateY(-5px);
+    box-shadow: 
+        2px 2px 10px rgba(0, 0, 0, 0.2),
+        -2px -2px 10px rgba(255, 255, 255, 0.9);
+}
+
+/* Контейнер для эмоджи */
+.category .emoji-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 10px;
+    width: 100%; /* Центрирование эмоджи */
+    text-align: center;
+}
+
+/* Основное эмоджи */
+.category .emoji {
+    position: relative;
+    font-size: 2.5rem;
+    transition: transform 0.3s;
+    z-index: 2; /* Основное эмоджи выше дополнительных */
+}
+
+/* Дополнительные эмоджи */
+.category .emoji::before,
+.category .emoji::after {
+    content: attr(data-left-emoji);
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    font-size: 1.5rem;
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+    z-index: 1; /* Ниже основного эмоджи */
+    pointer-events: none;
+}
+
+/* Левое дополнительное эмоджи */
+.category .emoji::before {
+    content: attr(data-left-emoji);
+    left: 25%; /* Размещение внутри кнопки */
+}
+
+/* Правое дополнительное эмоджи */
+.category .emoji::after {
+    content: attr(data-right-emoji);
+    left: 75%; /* Размещение внутри кнопки */
+}
+
+/* Активное состояние эмоджи */
+.category.active .emoji {
+    transform: scale(1.2);
+}
+
+.category.active .emoji::before,
+.category.active .emoji::after {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+/* Подкатегории */
+.subcategory {
+    display: none;
+    position: absolute;
+    top: 110%; /* Немного ниже кнопки для предотвращения перекрытия */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    color: #333;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 10px 0;
+    z-index: 30; /* Отображение поверх других элементов */
+    min-width: 150px;
+}
+
+/* Стрелка для подкатегорий */
+.subcategory::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #fff transparent;
+}
+
+/* Стиль ссылок подкатегорий */
+.subcategory a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #555;
+    transition: background 0.3s, color 0.3s;
+}
+
+.subcategory a:hover {
+    background: #2575fc;
+    color: #fff;
+}
+
+/* Активное отображение подкатегорий */
+.category.active .subcategory {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Анимация для подкатегорий */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Подвал сайта */
+footer {
+    background-color: #fff;
+    padding: 20px 40px;
+    text-align: center;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+    font-size: 0.9rem;
+    color: #777;
+}
+
+/* Адаптивность */
+@media (max-width: 1200px) {
+    .categories {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .categories {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .content h1 {
+        font-size: 2rem;
+    }
+
+    .category {
+        padding: 15px;
+    }
+
+    .category .emoji {
+        font-size: 2rem;
+    }
+
+    .category .emoji::before,
+    .category .emoji::after {
+        font-size: 1.2rem;
+    }
+
+    .subcategory {
+        min-width: 120px;
+    }
+
+    .categories {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
