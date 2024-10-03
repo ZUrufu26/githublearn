@@ -77,7 +77,7 @@
             border-radius: 15px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 1000px;
+            max-width: 1200px; /* Увеличен макс. размер для лучшего распределения */
             position: relative; /* Для правильного наложения подкатегорий */
         }
 
@@ -107,14 +107,20 @@
                 -5px -5px 15px rgba(255, 255, 255, 0.7);
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
-            overflow: hidden; /* Для обрезки дополнительных эмоджи */
+            /* Убрано overflow: hidden, чтобы дополнительные эмоджи могли отображаться */
         }
 
-        /* Добавление основных и дополнительных эмоджи к категориям */
+        /* Контейнер для эмоджи */
+        .category .emoji-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        /* Основное эмоджи */
         .category .emoji {
             position: relative;
             font-size: 2.5rem;
-            margin-bottom: 10px;
             transition: transform 0.3s;
             z-index: 2; /* Основное эмоджи выше дополнительных */
         }
@@ -122,7 +128,7 @@
         /* Дополнительные эмоджи */
         .category .emoji::before,
         .category .emoji::after {
-            content: attr(data-left-emoji);
+            content: attr(data-emoji);
             position: absolute;
             top: 50%;
             transform: translate(-50%, -50%) scale(0.5);
@@ -133,25 +139,26 @@
             pointer-events: none;
         }
 
+        /* Левое дополнительное эмоджи */
         .category .emoji::before {
             content: attr(data-left-emoji);
-            left: -1.5em;
+            left: -50%;
         }
 
+        /* Правое дополнительное эмоджи */
         .category .emoji::after {
             content: attr(data-right-emoji);
-            right: -1.5em;
-            transform: translate(50%, -50%) scale(0.5);
+            left: 150%; /* Позиционируем справа от основного эмоджи */
         }
 
         /* Анимация появления дополнительных эмоджи при наведении */
         .category:hover .emoji::before {
-            transform: translate(-80%, -50%) scale(1);
+            transform: translate(-100%, -50%) scale(1);
             opacity: 1;
         }
 
         .category:hover .emoji::after {
-            transform: translate(80%, -50%) scale(1);
+            transform: translate(0%, -50%) scale(1);
             opacity: 1;
         }
 
@@ -267,7 +274,9 @@
             <div class="categories">
                 <!-- Категория Электроника -->
                 <div class="category">
-                    <div class="emoji" data-left-emoji="🔋" data-right-emoji="💻">📱</div>
+                    <div class="emoji-container">
+                        <div class="emoji" data-left-emoji="🔋" data-right-emoji="💻">📱</div>
+                    </div>
                     Электроника
                     <div class="subcategory">
                         <a href="#">Смартфоны</a>
@@ -278,7 +287,9 @@
                 </div>
                 <!-- Категория Одежда -->
                 <div class="category">
-                    <div class="emoji" data-left-emoji="👠" data-right-emoji="🧥">👗</div>
+                    <div class="emoji-container">
+                        <div class="emoji" data-left-emoji="👠" data-right-emoji="🧥">👗</div>
+                    </div>
                     Одежда
                     <div class="subcategory">
                         <a href="#">Мужская</a>
@@ -289,7 +300,9 @@
                 </div>
                 <!-- Категория Книги -->
                 <div class="category">
-                    <div class="emoji" data-left-emoji="📖" data-right-emoji="📘">📚</div>
+                    <div class="emoji-container">
+                        <div class="emoji" data-left-emoji="📖" data-right-emoji="📘">📚</div>
+                    </div>
                     Книги
                     <div class="subcategory">
                         <a href="#">Художественная</a>
@@ -300,7 +313,9 @@
                 </div>
                 <!-- Категория Дом и сад -->
                 <div class="category">
-                    <div class="emoji" data-left-emoji="🪑" data-right-emoji="🌸">🏡</div>
+                    <div class="emoji-container">
+                        <div class="emoji" data-left-emoji="🪑" data-right-emoji="🌸">🏡</div>
+                    </div>
                     Дом и сад
                     <div class="subcategory">
                         <a href="#">Мебель</a>
@@ -311,7 +326,9 @@
                 </div>
                 <!-- Новая Категория Спорт -->
                 <div class="category">
-                    <div class="emoji" data-left-emoji="🏀" data-right-emoji="🎾">⚽</div>
+                    <div class="emoji-container">
+                        <div class="emoji" data-left-emoji="🏀" data-right-emoji="🎾">⚽</div>
+                    </div>
                     Спорт
                     <div class="subcategory">
                         <a href="#">Футбол</a>
@@ -322,7 +339,9 @@
                 </div>
                 <!-- Новая Категория Игры -->
                 <div class="category">
-                    <div class="emoji" data-left-emoji="🎮" data-right-emoji="🕹️">🧩</div>
+                    <div class="emoji-container">
+                        <div class="emoji" data-left-emoji="🎮" data-right-emoji="🕹️">🧩</div>
+                    </div>
                     Игры
                     <div class="subcategory">
                         <a href="#">Консоли</a>
