@@ -77,7 +77,8 @@
             border-radius: 15px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 800px;
+            max-width: 1000px;
+            position: relative; /* Для правильного наложения подкатегорий */
         }
 
         /* Заголовок страницы */
@@ -106,12 +107,53 @@
                 -5px -5px 15px rgba(255, 255, 255, 0.7);
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden; /* Для обрезки дополнительных эмоджи */
         }
 
-        /* Добавление эмоджи к категориям */
+        /* Добавление основных и дополнительных эмоджи к категориям */
         .category .emoji {
+            position: relative;
             font-size: 2.5rem;
             margin-bottom: 10px;
+            transition: transform 0.3s;
+            z-index: 1;
+        }
+
+        /* Дополнительные эмоджи */
+        .category .emoji::before,
+        .category .emoji::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+
+        .category .emoji::before {
+            left: -30px;
+            content: attr(data-left-emoji);
+        }
+
+        .category .emoji::after {
+            right: -30px;
+            content: attr(data-right-emoji);
+        }
+
+        .category:hover .emoji::before {
+            left: 10px;
+            opacity: 1;
+        }
+
+        .category:hover .emoji::after {
+            right: 10px;
+            opacity: 1;
+        }
+
+        .category:hover .emoji {
+            transform: scale(1.2);
         }
 
         .category:hover {
@@ -133,7 +175,7 @@
             border-radius: 0 0 15px 15px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             padding: 10px 0;
-            z-index: 10;
+            z-index: 20; /* Повышенный z-index для отображения поверх других элементов */
         }
 
         .subcategory a {
@@ -188,6 +230,11 @@
             .category .emoji {
                 font-size: 2rem;
             }
+
+            .category .emoji::before,
+            .category .emoji::after {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -212,7 +259,7 @@
             <div class="categories">
                 <!-- Категория Электроника -->
                 <div class="category">
-                    <div class="emoji">📱</div>
+                    <div class="emoji" data-left-emoji="🔋" data-right-emoji="💻">📱</div>
                     Электроника
                     <div class="subcategory">
                         <a href="#">Смартфоны</a>
@@ -223,7 +270,7 @@
                 </div>
                 <!-- Категория Одежда -->
                 <div class="category">
-                    <div class="emoji">👗</div>
+                    <div class="emoji" data-left-emoji="👠" data-right-emoji="🧥">👗</div>
                     Одежда
                     <div class="subcategory">
                         <a href="#">Мужская</a>
@@ -234,7 +281,7 @@
                 </div>
                 <!-- Категория Книги -->
                 <div class="category">
-                    <div class="emoji">📚</div>
+                    <div class="emoji" data-left-emoji="📖" data-right-emoji="📘">📚</div>
                     Книги
                     <div class="subcategory">
                         <a href="#">Художественная</a>
@@ -245,13 +292,35 @@
                 </div>
                 <!-- Категория Дом и сад -->
                 <div class="category">
-                    <div class="emoji">🏡</div>
+                    <div class="emoji" data-left-emoji="🪑" data-right-emoji="🌸">🏡</div>
                     Дом и сад
                     <div class="subcategory">
                         <a href="#">Мебель</a>
                         <a href="#">Садовая техника</a>
                         <a href="#">Декор</a>
                         <a href="#">Инструменты</a>
+                    </div>
+                </div>
+                <!-- Новая Категория Спорт -->
+                <div class="category">
+                    <div class="emoji" data-left-emoji="🏀" data-right-emoji="🎾">⚽</div>
+                    Спорт
+                    <div class="subcategory">
+                        <a href="#">Футбол</a>
+                        <a href="#">Баскетбол</a>
+                        <a href="#">Теннис</a>
+                        <a href="#">Фитнес</a>
+                    </div>
+                </div>
+                <!-- Новая Категория Игры -->
+                <div class="category">
+                    <div class="emoji" data-left-emoji="🎮" data-right-emoji="🕹️">🧩</div>
+                    Игры
+                    <div class="subcategory">
+                        <a href="#">Консоли</a>
+                        <a href="#">ПК Игры</a>
+                        <a href="#">Аксессуары</a>
+                        <a href="#">Виртуальная реальность</a>
                     </div>
                 </div>
             </div>
