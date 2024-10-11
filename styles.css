@@ -1,3 +1,6 @@
+/* Подключение Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 /* Сброс стандартных отступов и установка box-sizing */
 * {
     box-sizing: border-box;
@@ -5,19 +8,31 @@
     padding: 0;
 }
 
+/* Переменные для цветов */
+:root {
+    --primary-color: #1E90FF; /* Синий */
+    --secondary-color: #F5F5F5; /* Светло-серый */
+    --accent-color: #FFA500; /* Оранжевый */
+    --success-color: #28A745; /* Зеленый */
+    --text-color: #333333; /* Темно-серый */
+    --text-secondary: #7D7D7D; /* Средне-серый */
+    --background-gradient: linear-gradient(135deg, #e0eafc, #cfdef3);
+}
+
 /* Стили для тела страницы */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #e0eafc, #cfdef3);
+    font-family: 'Roboto', sans-serif;
+    background: var(--secondary-color);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    color: var(--text-color);
 }
 
 /* Шапка сайта */
 header {
     width: 100%;
-    background-color: #fff;
+    background-color: #ffffff;
     padding: 20px 40px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     display: flex;
@@ -31,26 +46,27 @@ header {
 /* Название магазина */
 .logo {
     font-size: 1.8rem;
-    font-weight: bold;
-    color: #333;
+    font-weight: 700;
+    color: var(--primary-color);
 }
 
 /* Навигация */
 nav ul {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 25px;
 }
 
 nav ul li a {
     text-decoration: none;
-    color: #555;
+    color: var(--text-secondary);
     font-size: 1rem;
+    font-weight: 500;
     transition: color 0.3s;
 }
 
 nav ul li a:hover {
-    color: #2575fc;
+    color: var(--primary-color);
 }
 
 /* Основной контейнер */
@@ -65,68 +81,70 @@ nav ul li a:hover {
 /* Контейнер для контента */
 .content {
     text-align: center;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    background: #ffffff;
+    padding: 50px 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
     width: 100%;
-    max-width: 1200px; /* Увеличен макс. размер для лучшего распределения */
-    position: relative; /* Для правильного наложения подкатегорий */
+    max-width: 1200px;
+    position: relative;
 }
 
 /* Заголовок страницы */
 .content h1 {
-    margin-bottom: 40px;
-    color: #333;
+    margin-bottom: 30px;
+    color: var(--text-color);
     font-size: 2.5rem;
+    font-weight: 700;
 }
 
 /* Контейнер для кнопок категорий */
 .categories {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 кнопки в строке */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 30px;
 }
 
 /* Стили для кнопок категорий */
 .category {
     position: relative;
-    background: linear-gradient(145deg, #6a11cb, #2575fc);
-    color: #fff;
-    padding: 20px;
-    border-radius: 15px;
+    background: var(--secondary-color);
+    color: var(--text-color);
+    padding: 30px 20px;
+    border-radius: 10px;
     box-shadow: 
-        5px 5px 15px rgba(0, 0, 0, 0.1),
-        -5px -5px 15px rgba(255, 255, 255, 0.7);
+        0 4px 6px rgba(0, 0, 0, 0.1),
+        0 -2px 6px rgba(255, 255, 255, 0.7);
     cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-    z-index: 1; /* Установлено базовое значение для корректного наложения подкатегорий */
-    overflow: visible; /* Позволяет подкатегориям выходить за пределы кнопки */
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+    z-index: 1;
+    overflow: visible;
 }
 
-/* Активное состояние категории для подкатегорий */
-.category.active {
+.category:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
     transform: translateY(-5px);
     box-shadow: 
-        2px 2px 10px rgba(0, 0, 0, 0.2),
-        -2px -2px 10px rgba(255, 255, 255, 0.9);
+        0 8px 12px rgba(0, 0, 0, 0.15),
+        0 -4px 12px rgba(255, 255, 255, 0.8);
 }
 
 /* Контейнер для эмоджи */
 .category .emoji-container {
     position: relative;
     display: inline-block;
-    margin-bottom: 10px;
-    width: 100%; /* Центрирование эмоджи */
+    margin-bottom: 15px;
+    width: 100%;
     text-align: center;
 }
 
 /* Основное эмоджи */
 .category .emoji {
     position: relative;
-    font-size: 2.5rem;
+    font-size: 3rem;
     transition: transform 0.3s;
-    z-index: 2; /* Основное эмоджи выше дополнительных */
+    z-index: 2;
 }
 
 /* Дополнительные эмоджи */
@@ -135,24 +153,22 @@ nav ul li a:hover {
     content: attr(data-left-emoji);
     position: absolute;
     top: 50%;
-    transform: translate(-50%, -50%) scale(0.5);
-    font-size: 1.5rem;
+    transform: translate(-50%, -50%) scale(0.7);
+    font-size: 1.8rem;
     opacity: 0;
     transition: transform 0.3s, opacity 0.3s;
-    z-index: 1; /* Ниже основного эмоджи */
+    z-index: 1;
     pointer-events: none;
 }
 
-/* Левое дополнительное эмоджи */
 .category .emoji::before {
     content: attr(data-left-emoji);
-    left: 25%; /* Размещение внутри кнопки */
+    left: 25%;
 }
 
-/* Правое дополнительное эмоджи */
 .category .emoji::after {
     content: attr(data-right-emoji);
-    left: 75%; /* Размещение внутри кнопки */
+    left: 75%;
 }
 
 /* Отображение дополнительных эмоджи при наведении */
@@ -170,43 +186,42 @@ nav ul li a:hover {
 .subcategory {
     display: none;
     position: absolute;
-    top: -10px; /* Появляются над кнопкой */
+    top: -10px;
     left: 50%;
     transform: translateX(-50%) translateY(-100%);
-    background: #fff;
-    color: #333;
-    border-radius: 15px;
+    background: #ffffff;
+    color: var(--text-color);
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     padding: 10px 0;
-    z-index: 30; /* Отображение поверх других элементов */
+    z-index: 30;
     min-width: 150px;
     transition: opacity 0.3s, transform 0.3s;
 }
 
-/* Стрелка для подкатегорий */
 .subcategory::before {
     content: '';
     position: absolute;
-    bottom: -10px; /* Стрелка указывает вниз на кнопку */
+    bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
     border-width: 5px;
     border-style: solid;
-    border-color: #fff transparent transparent transparent;
+    border-color: #ffffff transparent transparent transparent;
 }
 
-/* Стиль ссылок подкатегорий */
 .subcategory a {
     display: block;
-    padding: 10px 20px;
+    padding: 10px 25px;
     text-decoration: none;
-    color: #555;
+    color: var(--text-secondary);
     transition: background 0.3s, color 0.3s;
+    font-weight: 500;
 }
 
 .subcategory a:hover {
-    background: #2575fc;
-    color: #fff;
+    background: var(--primary-color);
+    color: #ffffff;
 }
 
 /* Активное отображение подкатегорий */
@@ -225,15 +240,38 @@ nav ul li a:hover {
 
 /* Подвал сайта */
 footer {
-    background-color: #fff;
+    background-color: #ffffff;
     padding: 20px 40px;
     text-align: center;
     box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
     font-size: 0.9rem;
-    color: #777;
+    color: var(--text-secondary);
+}
+
+/* Кнопка Призыва к Действию (например, "Купить") */
+.button-primary {
+    background-color: var(--accent-color);
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-weight: 500;
+}
+
+.button-primary:hover {
+    background-color: darkorange;
 }
 
 /* Адаптивность */
+@media (min-width: 1201px) {
+    .categories {
+        grid-template-columns: repeat(3, 1fr); /* Устанавливаем 3 столбца */
+    }
+}
+
 @media (max-width: 1200px) {
     .categories {
         grid-template-columns: repeat(3, 1fr);
@@ -263,16 +301,16 @@ footer {
     }
 
     .category {
-        padding: 15px;
+        padding: 20px 15px;
     }
 
     .category .emoji {
-        font-size: 2rem;
+        font-size: 2.5rem;
     }
 
     .category .emoji::before,
     .category .emoji::after {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
     }
 
     .subcategory {
@@ -284,6 +322,6 @@ footer {
     }
 
     .subcategory::before {
-        bottom: -8px; /* Корректировка позиции стрелки для меньших экранов */
+        bottom: -8px;
     }
 }
