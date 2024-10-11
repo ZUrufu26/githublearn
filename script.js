@@ -2,32 +2,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const categories = document.querySelectorAll('.category');
 
     categories.forEach(category => {
-        const emoji = category.querySelector('.emoji');
-        const leftEmoji = emoji.getAttribute('data-left-emoji');
-        const rightEmoji = emoji.getAttribute('data-right-emoji');
-
-        // Удаляем обработчики наведения курсора
-        // category.addEventListener('mouseenter', () => {
-        //     category.classList.add('active');
-        // });
-
-        // category.addEventListener('mouseleave', () => {
-        //     category.classList.remove('active');
-        // });
-
-        // Добавляем обработчик клика на категорию
+        // Обработчик клика на категорию для отображения подкатегорий
         category.addEventListener('click', (e) => {
-            e.stopPropagation(); // Предотвращаем всплытие события клика
+            // Предотвращаем распространение события, чтобы не вызвать закрытие при клике на саму категорию
+            e.stopPropagation();
 
-            // Закрываем другие активные категории
+            // Если кликнули уже активную категорию, просто переключаем её состояние
+            const isActive = category.classList.contains('active');
+
+            // Закрываем все подкатегории
             categories.forEach(cat => {
-                if (cat !== category) {
-                    cat.classList.remove('active');
-                }
+                cat.classList.remove('active');
             });
 
-            // Переключаем активный класс у текущей категории
-            category.classList.toggle('active');
+            // Если категория была неактивной, делаем её активной
+            if (!isActive) {
+                category.classList.add('active');
+            }
         });
     });
 

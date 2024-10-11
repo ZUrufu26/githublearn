@@ -104,7 +104,7 @@ nav ul li a:hover {
     overflow: visible; /* Позволяет подкатегориям выходить за пределы кнопки */
 }
 
-/* Активное состояние категории */
+/* Активное состояние категории для подкатегорий */
 .category.active {
     transform: translateY(-5px);
     box-shadow: 
@@ -155,13 +155,13 @@ nav ul li a:hover {
     left: 75%; /* Размещение внутри кнопки */
 }
 
-/* Активное состояние эмоджи */
-.category.active .emoji {
+/* Отображение дополнительных эмоджи при наведении */
+.category:hover .emoji {
     transform: scale(1.2);
 }
 
-.category.active .emoji::before,
-.category.active .emoji::after {
+.category:hover .emoji::before,
+.category:hover .emoji::after {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
 }
@@ -170,28 +170,29 @@ nav ul li a:hover {
 .subcategory {
     display: none;
     position: absolute;
-    top: 110%; /* Немного ниже кнопки для предотвращения перекрытия */
+    top: -10px; /* Появляются над кнопкой */
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(-100%);
     background: #fff;
     color: #333;
-    border-radius: 0 0 15px 15px;
+    border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     padding: 10px 0;
     z-index: 30; /* Отображение поверх других элементов */
     min-width: 150px;
+    transition: opacity 0.3s, transform 0.3s;
 }
 
 /* Стрелка для подкатегорий */
 .subcategory::before {
     content: '';
     position: absolute;
-    top: -10px;
+    bottom: -10px; /* Стрелка указывает вниз на кнопку */
     left: 50%;
     transform: translateX(-50%);
     border-width: 5px;
     border-style: solid;
-    border-color: transparent transparent #fff transparent;
+    border-color: #fff transparent transparent transparent;
 }
 
 /* Стиль ссылок подкатегорий */
@@ -211,13 +212,15 @@ nav ul li a:hover {
 /* Активное отображение подкатегорий */
 .category.active .subcategory {
     display: block;
+    opacity: 1;
+    transform: translateX(-50%) translateY(-100%);
     animation: fadeIn 0.3s ease-in-out;
 }
 
 /* Анимация для подкатегорий */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
-    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    from { opacity: 0; transform: translateX(-50%) translateY(-110%); }
+    to { opacity: 1; transform: translateX(-50%) translateY(-100%); }
 }
 
 /* Подвал сайта */
@@ -278,5 +281,9 @@ footer {
 
     .categories {
         grid-template-columns: repeat(1, 1fr);
+    }
+
+    .subcategory::before {
+        bottom: -8px; /* Корректировка позиции стрелки для меньших экранов */
     }
 }
